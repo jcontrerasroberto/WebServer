@@ -21,7 +21,7 @@ public class Handler extends Thread{
             dos = new DataOutputStream(socket.getOutputStream());
             printWriter = new PrintWriter(new OutputStreamWriter(dos));
 
-            String request = dis.readLine();
+            String request = dis.readLine(); //GET /ruta
 
             if(request==null)
             {
@@ -93,12 +93,6 @@ public class Handler extends Thread{
     private void sendHead(String fileName) throws IOException {
         DataInputStream fileStream = new DataInputStream(new FileInputStream(fileName));
         int blockSize = 0;
-        if (fileStream.available()>=1024){
-            blockSize = 1024;
-        }else{
-            fileStream.available();
-        }
-
         sendHeader(fileName, fileStream, 200);
     }
 
@@ -164,7 +158,7 @@ public class Handler extends Thread{
         header = header +"Date: " + new Date()+" \n";
         header = header +"Content-Type: ";
 
-        String ext = fileName.substring(fileName.lastIndexOf('.')+1);   //obtenemos la extensión del recurso solicitado
+        String ext = fileName.substring(fileName.lastIndexOf('.')+1);   //obtenemos la extensión del recurso solicitado   index.algo.html
         switch (ext){
             case "html" : header = header +"text/html"; break;
             case "jpg" : header +="image/jpeg"; break;
@@ -200,12 +194,6 @@ public class Handler extends Thread{
             }
 
             DataInputStream fileStream = new DataInputStream(new FileInputStream(fileName));
-            int blockSize = 0;
-            if (fileStream.available()>=1024){
-                blockSize = 1024;
-            }else{
-                fileStream.available();
-            }
 
             sendHeader(fileName, fileStream, statusCode);
 
